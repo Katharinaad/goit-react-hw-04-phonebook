@@ -5,7 +5,7 @@ import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import { LS_CONTACTS_KEY } from './constants/localStorageKey';
 
-function App() {
+export function App() {
   const [contacts, seContacts] = useState([
     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
     { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
@@ -42,8 +42,6 @@ function App() {
 
   // adding data to the state and getting data from the ContactForm component
   const handleSubmit = data => {
-    const { contacts } = this.state;
-
     if (
       contacts.some(
         contact => contact.name.toLowerCase() === data.name.toLowerCase()
@@ -53,12 +51,10 @@ function App() {
       return;
     }
 
-    this.setState({
-      contacts: [
-        ...contacts,
-        { id: nanoid(), name: data.name, number: data.number },
-      ],
-    });
+    seContacts(prevContacts => [
+      ...prevContacts,
+      { id: nanoid(), name: data.name, number: data.number },
+    ]);
   };
 
   const filteredContacts = contacts.filter(contact =>
