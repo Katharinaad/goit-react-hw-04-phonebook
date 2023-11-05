@@ -1,19 +1,32 @@
 import { useState } from 'react';
 import css from './ContactForm.module.css';
 
-export function ContactForm() {
+export function ContactForm({ onSubmit }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const handleInputChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
-  };
+  function handleInputNameChange(event) {
+    setName(event.target.value);
+    console.log(name);
+  }
 
-  const handleSubmit = event => {
+  function handleInputNumberChange(event) {
+    setNumber(event.target.value);
+    console.log(number);
+  }
+
+  // const handleSubmit = event => {
+  //   event.preventDefault();
+  //   this.props.onSubmit({ ...this.state });
+  //   this.setState({ name: '', number: '' });
+  // };
+
+  function handleSubmit(event) {
     event.preventDefault();
-    this.props.onSubmit({ ...this.state });
-    this.setState({ name: '', number: '' });
-  };
+    onSubmit({ name: name, number: number });
+    setName('');
+    setNumber('');
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -24,7 +37,7 @@ export function ContactForm() {
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           value={name}
-          onChange={handleInputChange}
+          onChange={event => handleInputNameChange(event)}
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan."
           placeholder="Enter a name"
           required
@@ -36,7 +49,7 @@ export function ContactForm() {
           type="tel"
           name="number"
           value={number}
-          onChange={handleInputChange}
+          onChange={event => handleInputNumberChange(event)}
           pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           placeholder="Enter a number"
