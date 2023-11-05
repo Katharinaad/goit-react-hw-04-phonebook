@@ -15,7 +15,7 @@ export function App() {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    // Load contacts from localStorage when the component mounts
+    // Load contacts from localStorage when the component mounts, which runs only once
     const stringifiedContacts = localStorage.getItem(LS_CONTACTS_KEY);
     const parsedContacts = JSON.parse(stringifiedContacts);
 
@@ -24,7 +24,7 @@ export function App() {
         contacts: parsedContacts,
       });
     }
-  });
+  }, []);
 
   useEffect(() => {
     // Save contacts to localStorage when the state changes
