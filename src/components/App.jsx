@@ -6,7 +6,7 @@ import { ContactList } from './ContactList/ContactList';
 import { LS_CONTACTS_KEY } from './constants/localStorageKey';
 
 export function App() {
-  const [contacts, seContacts] = useState([
+  const [contacts, setContacts] = useState([
     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
     { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
     { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
@@ -20,15 +20,13 @@ export function App() {
     const parsedContacts = JSON.parse(stringifiedContacts);
 
     if (parsedContacts) {
-      this.setState({
-        contacts: parsedContacts,
-      });
+      setContacts(parsedContacts);
     }
   }, []);
 
   useEffect(() => {
-    // Save contacts to localStorage when the state changes
-    const stringifiedContacts = JSON.stringify(this.state.contacts);
+    // Save contacts to localStorage when the "contacts" dependency changes
+    const stringifiedContacts = JSON.stringify(contacts);
     localStorage.setItem(LS_CONTACTS_KEY, stringifiedContacts);
   }, [contacts]);
 
@@ -37,7 +35,9 @@ export function App() {
   };
 
   const handleDelete = userId => {
-    seContacts(prevContacts => prevContacts.filter(user => user.id !== userId));
+    setContacts(prevContacts =>
+      prevContacts.filter(user => user.id !== userId)
+    );
   };
 
   // adding data to the state and getting data from the ContactForm component
@@ -51,7 +51,7 @@ export function App() {
       return;
     }
 
-    seContacts(prevContacts => [
+    setContacts(prevContacts => [
       ...prevContacts,
       { id: nanoid(), name: data.name, number: data.number },
     ]);
